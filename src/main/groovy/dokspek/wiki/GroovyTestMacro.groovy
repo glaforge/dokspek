@@ -24,6 +24,6 @@ class GroovyTestMacro extends AbstractMacro<GroovyTestMacroParameters> {
     }
 
     List<Block> execute(GroovyTestMacroParameters params, String content, MacroTransformationContext context) {
-        return [new WordBlock("test")]
+        return [new WordBlock(content)]
     }
 }

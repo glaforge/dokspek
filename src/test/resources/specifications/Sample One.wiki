@@ -20,4 +20,4 @@ An external link: [[Guillaume Laforge's blog>>http://glaforge.appspot.com]]
 def list = [1, 2, 3]
 
 assert list.sump() == 6
-{{test}}
+{{/test}}
