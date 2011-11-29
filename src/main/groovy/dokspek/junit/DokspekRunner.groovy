@@ -13,6 +13,11 @@ import org.xwiki.rendering.converter.Converter
 import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter
 import org.xwiki.rendering.syntax.Syntax
 import groovy.text.SimpleTemplateEngine
+import org.xwiki.rendering.parser.Parser
+import org.xwiki.rendering.renderer.BlockRenderer
+import org.xwiki.rendering.transformation.TransformationManager
+import org.xwiki.rendering.transformation.Transformation
+import org.xwiki.rendering.transformation.TransformationContext
 
 /**
  *
@@ -21,16 +26,15 @@ import groovy.text.SimpleTemplateEngine
 class DokspekRunner extends Runner {
 
     ConfigurationHolder configuration
-    Converter converter
+    EmbeddableComponentManager componentManager
 
     DokspekRunner(Class testClass) {
         super()
 
         this.configuration = ConfigurationHolder.fromClass(testClass)
 
-        def componentManager = new EmbeddableComponentManager()
+        this.componentManager = new EmbeddableComponentManager()
         componentManager.initialize(this.class.classLoader)
-        converter = componentManager.lookup(Converter)
     }
 
     Description getDescription() {
@@ -61,8 +65,21 @@ class DokspekRunner extends Runner {
     }
 
     void runSpecAndReport(Document document) {
+
+        // parse document, execute tests, render output
+
+        def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
+        def xdom = parser.parse(new StringReader(document.content))
+
+        def transform = componentManager.lookup(Transformation, "macro")
+        def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
+        transform.transform(xdom, xformContext)
+
         def printer = new DefaultWikiPrinter()
-        converter.convert(new StringReader(document.content), Syntax.XWIKI_2_0, Syntax.XHTML_1_0, printer)
+        def renderer = componentManager.lookup(BlockRenderer, Syntax.XHTML_1_0.toIdString())
+        renderer.render(xdom, printer);
+
+        // merge rendered output into the templates
 
         def mainTemplateFile = new File(configuration.templateDirectory, "main.html")
         assert mainTemplateFile.exists(), "Main template file not found"

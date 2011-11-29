@@ -15,3 +15,9 @@ Ordered elements
 1. element three
 
 An external link: [[Guillaume Laforge's blog>>http://glaforge.appspot.com]]
+
+{{test}}
+def list = [1, 2, 3]
+
+assert list.sump() == 6
+{{test}}
