@@ -18,6 +18,10 @@ import org.xwiki.rendering.renderer.BlockRenderer
 import org.xwiki.rendering.transformation.TransformationManager
 import org.xwiki.rendering.transformation.Transformation
 import org.xwiki.rendering.transformation.TransformationContext
+import dokspek.wiki.GroovyTestMacro
+import org.xwiki.rendering.block.MacroBlock
+import org.xwiki.rendering.block.match.MacroBlockMatcher
+import org.xwiki.rendering.block.Block
 
 /**
  *
@@ -70,6 +74,11 @@ class DokspekRunner extends Runner {
 
         def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
         def xdom = parser.parse(new StringReader(document.content))
+
+        List<MacroBlock> allGroovySnippets = xdom.getBlocks(new MacroBlockMatcher("test"), Block.Axes.DESCENDANT)
+        allGroovySnippets.each { MacroBlock mb ->
+            println "id: $mb.id, content: $mb.content, params: $mb.parameters"
+        }
 
         def transform = componentManager.lookup(Transformation, "macro")
         def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
