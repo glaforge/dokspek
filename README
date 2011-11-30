@@ -1,1 +1,4 @@
-This file was created by IntelliJ IDEA (Nika) IU-110.492 for binding GitHub repository
+Dokspek is an executable specification documentation system.
+It is a small library that parses wiki documents, extracts snippets of code to execute them as JUnit tests, and then render the wiki document into HTML pages.
+
+Dokspek is using the XWiki Rendering engine for parsing wiki markup and producing HTML output.
