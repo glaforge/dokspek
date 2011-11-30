@@ -27,6 +27,6 @@ class GroovyTestMacro extends AbstractMacro<GroovyTestMacroParameters> {
     }
 
     List<Block> execute(GroovyTestMacroParameters params, String content, MacroTransformationContext context) {
-        return [new RawBlock("<pre><code class='groovy'>${content}</code></pre>", Syntax.XHTML_1_0)]
+        return [new RawBlock("<pre><code class='groovy #\${params.name}'>${content}</code></pre>", Syntax.XHTML_1_0)]
     }
 }

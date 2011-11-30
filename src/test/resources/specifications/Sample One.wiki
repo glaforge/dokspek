@@ -16,8 +16,14 @@ Ordered elements
 
 An external link: [[Guillaume Laforge's blog>>http://glaforge.appspot.com]]
 
-{{test}}
+{{test name="list-sum"}}
 def list = [1, 2, 3]
 
 assert list.sump() == 6
+{{/test}}
+
+Some other blurb, and another test:
+
+{{test name="assert-true"}}
+assert true
 {{/test}}
