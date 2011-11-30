@@ -6,6 +6,9 @@ import org.xwiki.rendering.transformation.MacroTransformationContext
 import org.xwiki.component.annotation.Component
 import javax.inject.Named
 import org.xwiki.rendering.block.WordBlock
+import org.xwiki.rendering.block.VerbatimBlock
+import org.xwiki.rendering.block.RawBlock
+import org.xwiki.rendering.syntax.Syntax
 
 /**
  * 
@@ -24,6 +27,6 @@ class GroovyTestMacro extends AbstractMacro<GroovyTestMacroParameters> {
     }
 
     List<Block> execute(GroovyTestMacroParameters params, String content, MacroTransformationContext context) {
-        return [new WordBlock(content)]
+        return [new RawBlock("<pre><code class='groovy'>${content}</code></pre>", Syntax.XHTML_1_0)]
     }
 }
