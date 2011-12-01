@@ -16,14 +16,32 @@ Ordered elements
 
 An external link: [[Guillaume Laforge's blog>>http://glaforge.appspot.com]]
 
+== Passing tests ==
+
+{{test name="assert-true"}}
+assert true
+{{/test}}
+
+== Failing tests ==
+
+A test that fails with an exception
+
 {{test name="list-sum"}}
 def list = [1, 2, 3]
 
 assert list.sump() == 6
 {{/test}}
 
-Some other blurb, and another test:
+A power assert failure example:
 
-{{test name="assert-true"}}
-assert true
+{{test name="power-assert"}}
+def listOne = [1, 2, 3]
+def expected = [2]
+
+assert listOne.findAll { it % 2 } == expected
 {{/test}}
+
+== Tests spanning several snippets ==
+
+
+

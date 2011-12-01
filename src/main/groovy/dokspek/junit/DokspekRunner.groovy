@@ -46,14 +46,7 @@ class DokspekRunner extends Runner {
     }
 
     Description getDescription() {
-        def mainDescription = Description.createSuiteDescription("Dokspek", new Annotation[0])
-
-        return mainDescription
-    }
-
-    private static Class customClassName(String label) {
-        String replacement = label.replaceAll('[^a-zA-Z0-9]', '')
-        Eval.me("class ${replacement} {}; ${replacement}")
+        return Description.createSuiteDescription("Dokspek", new Annotation[0])
     }
 
     void run(RunNotifier notifier) {
@@ -69,17 +62,14 @@ class DokspekRunner extends Runner {
                 def description = Description.createTestDescription(customClassName(document.title), mb.getParameter('name'))
                 try {
                     notifier.fireTestStarted(description)
+
                     shell.evaluate(mb.content, mb.getParameter('name'))
+
                     notifier.fireTestFinished(description)
                 } catch (Throwable t) {
-                    def failureMessageBlock = new RawBlock("<div class='stacktrace-message'>${t}</div>", Syntax.XHTML_1_0)
-                    
-                    def stacktraceWriter = new StringWriter()
-                    t.printStackTrace(new PrintWriter(stacktraceWriter))
-                    def failureStacktraceBlock = new RawBlock("<pre class='stacktrace-lines'>${stacktraceWriter.toString()}</pre>", Syntax.XHTML_1_0)
-                    
-                    mb.parent.insertChildAfter(failureMessageBlock, mb)
-                    mb.parent.insertChildAfter(failureStacktraceBlock, failureMessageBlock)
+                    def failureStacktraceBlock =
+                        new RawBlock("<div class='stacktrace-message'>${formatCleanTrace(t)}</div>", Syntax.XHTML_1_0)
+                    mb.parent.insertChildAfter(failureStacktraceBlock, mb)
                     
                     notifier.fireTestFailure(new Failure(description, t))
                 }
@@ -109,5 +99,46 @@ class DokspekRunner extends Runner {
             }
 
         }
+    }
+
+    private static Class customClassName(String label) {
+        String replacement = label.replaceAll('[^a-zA-Z0-9]', '')
+        Eval.me("class ${replacement} {}; ${replacement}")
+    }
+
+    private static void sanitizeStacktrace(Throwable t) {
+        def filtered = [
+            'java.', 'javax.', 'sun.', 'groovy.', 'org.codehaus.groovy.',
+            'dokspek.', 'org.gradle.', 'com.intellij.', 'org.junit.', '$Proxy'
+    	]
+        def trace = t.stackTrace
+        def newTrace = []
+        trace.each { stackTraceElement ->
+            if (filtered.every { !stackTraceElement.className.startsWith(it) }) {
+                newTrace << stackTraceElement
+            }
+        }
+        def clean = newTrace.toArray(newTrace as StackTraceElement[])
+        t.stackTrace = clean
+    }
+
+    private static void deepSanitize(Throwable t) {
+        Throwable current = t
+        while (current.cause != null) {
+            current = sanitizeStacktrace(current.cause)
+        }
+        sanitizeStacktrace(t);
+    }
+
+    private String formatCleanTrace(Throwable t) {
+        deepSanitize(t)
+
+        def stacktraceWriter = new StringWriter()
+        t.printStackTrace(new PrintWriter(stacktraceWriter))
+        String trace = stacktraceWriter.toString()
+                .replaceAll('\n', '<br/>')
+                .replaceAll(' ', '&nbsp;')
+                .replaceAll('\t', '&nbsp;' * 4)
+        return trace
     }
 }
