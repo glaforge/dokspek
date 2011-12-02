@@ -8,9 +8,9 @@ import groovy.transform.TupleConstructor
  */
 @TupleConstructor
 class ConfigurationHolder {
-    String specificationDirectory   = "src/test/resources/specifications"
-    String assetsDirectory          = "src/test/resources/assets"
-    String templateDirectory        = "src/main/resources/dokspek/templates"
+    String specificationDirectory   = "src/test/resources/dokspek/specifications"
+    String assetsDirectory          = "src/test/resources/dokspek/assets"
+    String templateDirectory        = "src/test/resources/dokspek/templates"
     String outputDirectory          = "build/reports/dokspek"
 
     static ConfigurationHolder fromClass(Class clazz) {

@@ -22,6 +22,7 @@ import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter
 import org.xwiki.rendering.syntax.Syntax
 import org.xwiki.rendering.transformation.Transformation
 import org.xwiki.rendering.transformation.TransformationContext
+import groovy.io.FileType
 
 /**
  *
@@ -76,9 +77,27 @@ class DokspekRunner extends Runner {
 
             renderAndOutputReport(xdom, document)
         }
+
+        copyAssets()
     }
 
-    private renderAndOutputReport(XDOM xdom, Document document) {
+    protected void copyAssets() {
+        def assetsDir = new File(configuration.assetsDirectory)
+        assert assetsDir.exists(), "The assets directory could not be found"
+
+        def outputDir = new File(configuration.outputDirectory)
+        if (!outputDir.exists()) outputDir.mkdir()
+
+        assetsDir.eachFile(FileType.FILES) { File f ->
+            f.withInputStream { InputStream ins ->
+                def outputAssetFile = new File(outputDir, f.name)
+                outputAssetFile.createNewFile()
+                outputAssetFile << ins
+            }
+        }
+    }
+
+    protected void renderAndOutputReport(XDOM xdom, Document document) {
         def transform = componentManager.lookup(Transformation, "macro")
         def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
         transform.transform(xdom, xformContext)
