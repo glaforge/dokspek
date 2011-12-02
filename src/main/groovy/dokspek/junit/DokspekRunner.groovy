@@ -1,30 +1,27 @@
 package dokspek.junit
 
-import org.junit.runner.Runner
-import org.junit.runner.notification.RunNotifier
-import org.junit.runner.Description
-import java.lang.annotation.Annotation
 import dokspek.ConfigurationHolder
 import dokspek.DocumentCollector
+import dokspek.Utilities
 import dokspek.model.Document
-import org.junit.runner.notification.Failure
-import org.xwiki.component.embed.EmbeddableComponentManager
-
-import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter
-import org.xwiki.rendering.syntax.Syntax
 import groovy.text.SimpleTemplateEngine
+import java.lang.annotation.Annotation
+import org.junit.runner.Description
+import org.junit.runner.Runner
+import org.junit.runner.notification.Failure
+import org.junit.runner.notification.RunNotifier
+import org.xwiki.component.embed.EmbeddableComponentManager
+import org.xwiki.rendering.block.Block
+import org.xwiki.rendering.block.MacroBlock
+import org.xwiki.rendering.block.RawBlock
+import org.xwiki.rendering.block.XDOM
+import org.xwiki.rendering.block.match.MacroBlockMatcher
 import org.xwiki.rendering.parser.Parser
 import org.xwiki.rendering.renderer.BlockRenderer
-
+import org.xwiki.rendering.renderer.printer.DefaultWikiPrinter
+import org.xwiki.rendering.syntax.Syntax
 import org.xwiki.rendering.transformation.Transformation
 import org.xwiki.rendering.transformation.TransformationContext
-
-import org.xwiki.rendering.block.MacroBlock
-import org.xwiki.rendering.block.match.MacroBlockMatcher
-import org.xwiki.rendering.block.Block
-import org.xwiki.rendering.block.RawBlock
-import dokspek.Utilities
-import org.xwiki.rendering.block.XDOM
 
 /**
  *
