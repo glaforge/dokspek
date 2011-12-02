@@ -24,6 +24,7 @@ import org.xwiki.rendering.block.match.MacroBlockMatcher
 import org.xwiki.rendering.block.Block
 import org.xwiki.rendering.block.RawBlock
 import dokspek.Utilities
+import org.xwiki.rendering.block.XDOM
 
 /**
  *
@@ -76,28 +77,32 @@ class DokspekRunner extends Runner {
                 }
             }
 
-            def transform = componentManager.lookup(Transformation, "macro")
-            def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
-            transform.transform(xdom, xformContext)
+            renderAndOutputReport(xdom, document)
+        }
+    }
 
-            def printer = new DefaultWikiPrinter()
-            def renderer = componentManager.lookup(BlockRenderer, Syntax.XHTML_1_0.toIdString())
-            renderer.render(xdom, printer);
+    private renderAndOutputReport(XDOM xdom, Document document) {
+        def transform = componentManager.lookup(Transformation, "macro")
+        def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
+        transform.transform(xdom, xformContext)
 
-            // merge rendered output into the templates
+        def printer = new DefaultWikiPrinter()
+        def renderer = componentManager.lookup(BlockRenderer, Syntax.XHTML_1_0.toIdString())
+        renderer.render(xdom, printer);
 
-            def mainTemplateFile = new File(configuration.templateDirectory, "main.html")
-            assert mainTemplateFile.exists(), "Main template file not found"
+        // merge rendered output into the templates
 
-            def engine = new SimpleTemplateEngine(false)
-            def template = engine.createTemplate(mainTemplateFile)
+        def mainTemplateFile = new File(configuration.templateDirectory, "main.html")
+        assert mainTemplateFile.exists(), "Main template file not found"
 
-            def outputDirectory = new File(configuration.outputDirectory)
-            if (!outputDirectory.exists()) outputDirectory.mkdirs()
+        def engine = new SimpleTemplateEngine(false)
+        def template = engine.createTemplate(mainTemplateFile)
 
-            new File(outputDirectory, document.title + '.html').withWriter('UTF-8') { Writer writer ->
-                writer << template.make([title: document.title, content: printer.toString()])
-            }
+        def outputDirectory = new File(configuration.outputDirectory)
+        if (!outputDirectory.exists()) outputDirectory.mkdirs()
+
+        new File(outputDirectory, document.title + '.html').withWriter('UTF-8') { Writer writer ->
+            writer << template.make([title: document.title, content: printer.toString()])
         }
     }
 }
