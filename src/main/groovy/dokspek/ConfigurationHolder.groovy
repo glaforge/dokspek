@@ -9,6 +9,7 @@ import groovy.transform.TupleConstructor
 @TupleConstructor
 class ConfigurationHolder {
     String specificationDirectory   = "src/test/resources/specifications"
+    String assetsDirectory          = "src/test/resources/assets"
     String templateDirectory        = "src/main/resources/dokspek/templates"
     String outputDirectory          = "build/reports/dokspek"
 
