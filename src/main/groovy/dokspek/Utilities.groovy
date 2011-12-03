@@ -33,16 +33,4 @@ class Utilities {
         }
         sanitizeStacktrace(t);
     }
-
-    static String formatCleanTrace(Throwable t) {
-        Utilities.deepSanitize(t)
-
-        def stacktraceWriter = new StringWriter()
-        t.printStackTrace(new PrintWriter(stacktraceWriter))
-        String trace = stacktraceWriter.toString()
-                .replaceAll('\n', '<br/>')
-                .replaceAll(' ', '&nbsp;')
-                .replaceAll('\t', '&nbsp;' * 4)
-        return trace
-    }
 }

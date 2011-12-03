@@ -69,11 +69,15 @@ class DokspekRunner extends Runner {
 
                     notifier.fireTestFinished(description)
                 } catch (Throwable t) {
-                    def failureStacktraceBlock =
-                        new RawBlock("<div class='stacktrace-message'>${Utilities.formatCleanTrace(t)}</div>", Syntax.XHTML_1_0)
-                    mb.parent.insertChildAfter(failureStacktraceBlock, mb)
-                    
                     notifier.fireTestFailure(new Failure(description, t))
+
+                    Utilities.deepSanitize(t)
+
+                    def sw = new StringWriter()
+                    t.printStackTrace(new PrintWriter(sw))
+                    def failureStacktraceBlock =
+                        new RawBlock("<div class='stacktrace-message'>${sw}</div>", Syntax.XHTML_1_0)
+                    mb.parent.insertChildAfter(failureStacktraceBlock, mb)
                 }
             }
 
