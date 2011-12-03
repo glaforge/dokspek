@@ -39,7 +39,7 @@ pre, blockquote, fieldset {
 }
 
 pre, blockquote, fieldset, .framed {
-    border: 10px solid white;
+    border: 4px solid white;
 
        -moz-box-shadow: 3px 2px 8px #AAA;
     -webkit-box-shadow: 3px 2px 8px #AAA;
@@ -154,7 +154,7 @@ pre, code, tt, .stacktrace-message {
 }
 
 pre code {
-    background-color: #F7F7F2;
+    background-color: whitesmoke;
 }
 
 /* Lists */

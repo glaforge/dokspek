@@ -50,6 +50,8 @@ class DokspekRunner extends Runner {
     }
 
     void run(RunNotifier notifier) {
+        setupDirectory()
+
         List<Document> specDocs = DocumentCollector.collect(configuration)
         specDocs.each { Document document ->
             // parse document, execute tests, render output
@@ -81,6 +83,11 @@ class DokspekRunner extends Runner {
         copyAssets()
     }
 
+    protected void setupDirectory() {
+        def outputDir = new File(configuration.outputDirectory)
+        outputDir.deleteDir()
+    }
+
     protected void copyAssets() {
         def assetsDir = new File(configuration.assetsDirectory)
         assert assetsDir.exists(), "The assets directory could not be found"
@@ -91,7 +98,7 @@ class DokspekRunner extends Runner {
         assetsDir.eachFile(FileType.FILES) { File f ->
             f.withInputStream { InputStream ins ->
                 def outputAssetFile = new File(outputDir, f.name)
-                outputAssetFile.createNewFile()
+                if (outputAssetFile.exists()) outputAssetFile.delete()
                 outputAssetFile << ins
             }
         }
