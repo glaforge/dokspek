@@ -59,25 +59,31 @@ class DokspekRunner extends Runner {
             def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
             def xdom = parser.parse(new StringReader(document.content))
 
-            List<MacroBlock> allGroovySnippets = xdom.getBlocks(new MacroBlockMatcher("test"), Block.Axes.DESCENDANT)
-            allGroovySnippets.each { MacroBlock mb ->
-                def description = Description.createTestDescription(Utilities.customClassName(document.title), mb.getParameter('name'))
-                try {
-                    notifier.fireTestStarted(description)
+            xdom.getBlocks(new MacroBlockMatcher("test"), Block.Axes.DESCENDANT).each { MacroBlock mb ->
+                if (mb.getParameter("run") != "false") {
+                    def description = Description.createTestDescription(Utilities.customClassName(document.title), mb.getParameter('name'))
+                    try {
+                        notifier.fireTestStarted(description)
 
-                    shell.evaluate(mb.content, mb.getParameter('name'))
+                        try {
+                            shell.evaluate(mb.content, mb.getParameter('name'))
+                        } catch (Throwable t) {
+                            if (t.class.name != mb.getParameter("exception"))
+                                throw t
+                        }
 
-                    notifier.fireTestFinished(description)
-                } catch (Throwable t) {
-                    notifier.fireTestFailure(new Failure(description, t))
+                        notifier.fireTestFinished(description)
+                    } catch (Throwable t) {
+                        notifier.fireTestFailure(new Failure(description, t))
 
-                    Utilities.deepSanitize(t)
+                        Utilities.deepSanitize(t)
 
-                    def sw = new StringWriter()
-                    t.printStackTrace(new PrintWriter(sw))
-                    def failureStacktraceBlock =
-                        new RawBlock("<div class='stacktrace-message'>${sw}</div>", Syntax.XHTML_1_0)
-                    mb.parent.insertChildAfter(failureStacktraceBlock, mb)
+                        def sw = new StringWriter()
+                        t.printStackTrace(new PrintWriter(sw))
+                        def failureStacktraceBlock =
+                            new RawBlock("<div class='stacktrace-message'>${sw}</div>", Syntax.XHTML_1_0)
+                        mb.parent.insertChildAfter(failureStacktraceBlock, mb)
+                    }
                 }
             }
 

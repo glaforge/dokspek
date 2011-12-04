@@ -10,4 +10,8 @@ class GroovyTestMacroParameters {
 
     @PropertyMandatory
     public String name
+
+    public String run = "true"
+
+    public String exception
 }

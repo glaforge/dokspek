@@ -41,6 +41,30 @@ def expected = [2]
 assert listOne.findAll { it % 2 } == expected
 {{/test}}
 
+== A test that should be run... or not! ==
+
+{{test name="not-to-be-run" run="false"}}
+throw "Don't run me!"
+{{/test}}
+
+{{test name="should-be-run" run="true"}}
+"Run me!"
+{{/test}}
+
+== An exception is expected ==
+
+Here, an IOException is expected:
+
+{{test name="an-exception" exception="java.io.IOException"}}
+throw new IOException("kaboom")
+{{/test}}
+
+But here, a java.io.Exception was expected, but an UnsupportedOperationException is thrown:
+
+{{test name="different-exception" exception="java.io.IOException"}}
+throw new UnsupportedOperationException()
+{{/test}}
+
 == Tests spanning several snippets ==
 
 
