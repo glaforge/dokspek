@@ -1,6 +1,7 @@
 package dokspek.wiki
 
 import org.xwiki.properties.annotation.PropertyMandatory
+import org.xwiki.properties.annotation.PropertyName
 
 /**
  * 
@@ -13,5 +14,6 @@ class GroovyTestMacroParameters {
 
     public String run = "true"
 
+    @PropertyName("throws")
     public String exception
 }

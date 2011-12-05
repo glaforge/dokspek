@@ -60,6 +60,7 @@ class DokspekRunner extends Runner {
             def xdom = parser.parse(new StringReader(document.content))
 
             xdom.getBlocks(new MacroBlockMatcher("test"), Block.Axes.DESCENDANT).each { MacroBlock mb ->
+                // don't run the snippet as a test if marked with run="false"
                 if (mb.getParameter("run") != "false") {
                     def description = Description.createTestDescription(Utilities.customClassName(document.title), mb.getParameter('name'))
                     try {
@@ -68,7 +69,8 @@ class DokspekRunner extends Runner {
                         try {
                             shell.evaluate(mb.content, mb.getParameter('name'))
                         } catch (Throwable t) {
-                            if (t.class.name != mb.getParameter("exception"))
+                            // if snippet marked as
+                            if (t.class.name != mb.getParameter("throws"))
                                 throw t
                         }
 
