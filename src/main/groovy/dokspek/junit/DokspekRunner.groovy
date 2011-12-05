@@ -31,9 +31,9 @@ import org.codehaus.groovy.control.CompilationFailedException
  */
 class DokspekRunner extends Runner {
 
-    ConfigurationHolder configuration
-    EmbeddableComponentManager componentManager
-    GroovyShell shell
+    protected final ConfigurationHolder configuration
+    private EmbeddableComponentManager componentManager
+    protected GroovyShell shell
 
     DokspekRunner(Class testClass) {
         super()
