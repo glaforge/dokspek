@@ -60,18 +60,33 @@ class DokspekRunner extends Runner {
             def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
             def xdom = parser.parse(new StringReader(document.content))
 
-            xdom.getBlocks(new MacroBlockMatcher("test"), Block.Axes.DESCENDANT).each { MacroBlock mb ->
+            // keep a map of script names and script contents
+            Map<String, String> scripts = [:] 
+                    
+            List<MacroBlock> allScriptBlocks = xdom.getBlocks(new MacroBlockMatcher('test'), Block.Axes.DESCENDANT)
+            allScriptBlocks.each { MacroBlock mb ->
+                scripts[mb.getParameter('name')] = mb.content
+                
                 // don't run the snippet as a test if marked with run="false"
-                if (mb.getParameter("run") != "false") {
+                if (mb.getParameter('run') != "false") {
                     def description = Description.createTestDescription(Utilities.customClassName(document.title), mb.getParameter('name'))
                     try {
                         notifier.fireTestStarted(description)
 
                         try {
-                            shell.evaluate(mb.content, mb.getParameter('name'))
+                            String scriptText = mb.content
+
+                            // concatenate dependent scripts together to form one single script to execute
+                            if (mb.getParameter('dependsOn')) {
+                                String[] dependentScripts = mb.getParameter('dependsOn').split(',')
+                                def concatenatedScripts = dependentScripts.collect { String scriptName -> scripts[scriptName] } << scriptText
+                                scriptText = concatenatedScripts.join('\n')
+                            }
+                            
+                            shell.evaluate(scriptText, mb.getParameter('name'))
                         } catch (CompilationFailedException cfe) {
                             // if snippet marked as "compiles=false", a compilation exception is expected
-                            if (mb.getParameter("compiles") != 'false')
+                            if (mb.getParameter('compiles') != 'false')
                                 throw cfe
                         } catch (Throwable t) {
                             // if snippet marked as "throws", check that the right exception is thrown

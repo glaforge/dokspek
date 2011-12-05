@@ -18,4 +18,6 @@ class GroovyTestMacroParameters {
     public String exception
 
     public String compiles = "true"
+
+    public String dependsOn
 }

@@ -75,5 +75,24 @@ if foo
 
 == Tests spanning several snippets ==
 
+Given the following class:
 
+{{test name="person-class" run="false"}}
+class Person {
+    String name
+    int age
+}
+{{/test}}
 
+When you instanciate that class:
+
+{{test name="person-instance" run="false"}}
+def person = new Person(name: 'Guillaume', age: 34)
+{{/test}}
+
+Then you can check the values of the properties of that class:
+
+{{test name="person-checks" dependsOn="person-class,person-instance"}}
+assert person.name == 'Guillaume'
+assert person.age == 34
+{{/test}}
