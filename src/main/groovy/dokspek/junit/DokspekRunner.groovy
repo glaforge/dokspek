@@ -69,7 +69,7 @@ class DokspekRunner extends Runner {
                         try {
                             shell.evaluate(mb.content, mb.getParameter('name'))
                         } catch (Throwable t) {
-                            // if snippet marked as
+                            // if snippet marked as "throws", check that the right exception is thrown
                             if (t.class.name != mb.getParameter("throws"))
                                 throw t
                         }
