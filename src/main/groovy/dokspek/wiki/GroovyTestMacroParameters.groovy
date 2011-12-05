@@ -16,4 +16,6 @@ class GroovyTestMacroParameters {
 
     @PropertyName("throws")
     public String exception
+
+    public String compiles = "true"
 }

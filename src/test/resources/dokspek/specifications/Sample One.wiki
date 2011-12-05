@@ -67,6 +67,12 @@ throw new UnsupportedOperationException()
 
 == Assert that something shouldn't compile ==
 
+This script shouldn't compile:
+
+{{test name="not-compilable" compiles="false"}}
+if foo
+{{/test}}
+
 == Tests spanning several snippets ==
 
 

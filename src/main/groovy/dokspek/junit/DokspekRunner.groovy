@@ -23,6 +23,7 @@ import org.xwiki.rendering.syntax.Syntax
 import org.xwiki.rendering.transformation.Transformation
 import org.xwiki.rendering.transformation.TransformationContext
 import groovy.io.FileType
+import org.codehaus.groovy.control.CompilationFailedException
 
 /**
  *
@@ -68,9 +69,13 @@ class DokspekRunner extends Runner {
 
                         try {
                             shell.evaluate(mb.content, mb.getParameter('name'))
+                        } catch (CompilationFailedException cfe) {
+                            // if snippet marked as "compiles=false", a compilation exception is expected
+                            if (mb.getParameter("compiles") != 'false')
+                                throw cfe
                         } catch (Throwable t) {
                             // if snippet marked as "throws", check that the right exception is thrown
-                            if (t.class.name != mb.getParameter("throws"))
+                            if (t.class.name != mb.getParameter('throws'))
                                 throw t
                         }
 
