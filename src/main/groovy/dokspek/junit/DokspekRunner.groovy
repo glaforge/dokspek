@@ -24,6 +24,9 @@ import org.xwiki.rendering.transformation.Transformation
 import org.xwiki.rendering.transformation.TransformationContext
 import groovy.io.FileType
 import org.codehaus.groovy.control.CompilationFailedException
+import java.lang.reflect.Method
+import org.junit.BeforeClass
+import org.junit.AfterClass
 
 /**
  *
@@ -32,11 +35,14 @@ import org.codehaus.groovy.control.CompilationFailedException
 class DokspekRunner extends Runner {
 
     protected final ConfigurationHolder configuration
-    private EmbeddableComponentManager componentManager
     protected GroovyShell shell
+    private EmbeddableComponentManager componentManager
+    private Class testClass
 
     DokspekRunner(Class testClass) {
         super()
+        
+        this.testClass = testClass
 
         this.configuration = ConfigurationHolder.fromClass(testClass)
 
@@ -52,6 +58,8 @@ class DokspekRunner extends Runner {
 
     void run(RunNotifier notifier) {
         setupDirectory()
+        
+        runBeforeClass()
 
         List<Document> specDocs = DocumentCollector.collect(configuration)
         specDocs.each { Document document ->
@@ -111,10 +119,26 @@ class DokspekRunner extends Runner {
 
             renderAndOutputReport(xdom, document)
         }
+        
+        runAfterClass()
 
         copyAssets()
     }
 
+    protected void runBeforeClass() {
+        def classInstance = testClass.newInstance()
+
+        testClass.getMethods().findAll { Method method -> method.getAnnotation(BeforeClass) }
+                .each { Method method -> method.invoke(classInstance) }
+    }
+
+    protected void runAfterClass() {
+        def classInstance = testClass.newInstance()
+
+        testClass.getMethods().findAll { Method method -> method.getAnnotation(AfterClass) }
+                .each { Method method -> method.invoke(classInstance) }
+    }
+    
     protected void setupDirectory() {
         def outputDir = new File(configuration.outputDirectory)
         outputDir.deleteDir()
