@@ -14,9 +14,19 @@ class ConfigurationHolder {
     String outputDirectory          = "build/reports/dokspek"
 
     static ConfigurationHolder fromClass(Class clazz) {
+        def holder = new ConfigurationHolder()
 
+        Configuration anno = clazz.getAnnotation(Configuration)
+        
+        if (anno.specificationDirectory())
+            holder.specificationDirectory = anno.specificationDirectory()
+        if (anno.assetsDirectory())
+            holder.assetsDirectory = anno.assetsDirectory()
+        if (anno.templateDirectory())
+            holder.templateDirectory = anno.templateDirectory()
+        if (anno.outputDirectory())
+            holder.outputDirectory = anno.outputDirectory()
 
-
-        return new ConfigurationHolder()
+        return holder
     }
 }
