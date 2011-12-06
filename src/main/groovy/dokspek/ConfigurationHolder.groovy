@@ -18,14 +18,16 @@ class ConfigurationHolder {
 
         Configuration anno = clazz.getAnnotation(Configuration)
         
-        if (anno.specificationDirectory())
-            holder.specificationDirectory = anno.specificationDirectory()
-        if (anno.assetsDirectory())
-            holder.assetsDirectory = anno.assetsDirectory()
-        if (anno.templateDirectory())
-            holder.templateDirectory = anno.templateDirectory()
-        if (anno.outputDirectory())
-            holder.outputDirectory = anno.outputDirectory()
+        if (anno) {
+            if (anno.specificationDirectory())
+                holder.specificationDirectory = anno.specificationDirectory()
+            if (anno.assetsDirectory())
+                holder.assetsDirectory = anno.assetsDirectory()
+            if (anno.templateDirectory())
+                holder.templateDirectory = anno.templateDirectory()
+            if (anno.outputDirectory())
+                holder.outputDirectory = anno.outputDirectory()
+        }
 
         return holder
     }
