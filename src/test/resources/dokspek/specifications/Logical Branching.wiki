@@ -1,0 +1,28 @@
+= Logical Branching =
+
+The execution of your code can take different paths, depending on some conditions. Groovy supports the usual ##if## / ##else## syntax for your logical branching needs, which is very familiar in C-based languages.
+
+In the following example, we execute the block of code delimited by the curly braces conditionally depending on the outcome of the comparison inside the parentheses of the ##if##.
+
+{{test name="simple-if"}}
+def result
+
+def color = "green"
+
+if (color == "green") {
+    result = "color is green"
+}
+
+assert result == "color is green"
+{{/test}}
+
+Despite often being considered bad style, when only one instruction is to be conditionally executed, the parentheses can also be dropped:
+
+{{test name="if-dropped-parens"}}
+def result = "bad at math"
+
+if (2 * 3 == 6)
+    result = "I'm good at math"
+
+assert "I'm good at math"
+{{/test}}
