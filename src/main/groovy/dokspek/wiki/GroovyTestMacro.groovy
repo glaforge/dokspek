@@ -23,10 +23,14 @@ class GroovyTestMacro extends AbstractMacro<GroovyTestMacroParameters> {
     }
 
     boolean supportsInlineMode() {
-        return false
+        return true
     }
 
     List<Block> execute(GroovyTestMacroParameters params, String content, MacroTransformationContext context) {
-        return [new RawBlock("<pre><code class='groovy \${params.name}'>${content}</code></pre>", Syntax.XHTML_1_0)]
+        if (params.hidden == 'true') {
+            return [new RawBlock("", Syntax.XHTML_1_0)]
+        } else {
+            return [new RawBlock("<pre><code class='groovy \${params.name}'>${content}</code></pre>", Syntax.XHTML_1_0)]
+        }
     }
 }

@@ -18,5 +18,6 @@ class RunSpecifications {
         assert report.contains('groovy.lang.MissingMethodException: No signature of method: java.util.ArrayList.sump()')
         assert report.contains('assert listOne.findAll { it % 2 } == expected')
         assert report.contains('java.lang.UnsupportedOperationException')
+        assert !report.contains('System.currentTimeMillis()')
     }
 }

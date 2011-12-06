@@ -20,4 +20,6 @@ class GroovyTestMacroParameters {
     public String compiles = "true"
 
     public String dependsOn
+
+    public String hidden = "false"
 }

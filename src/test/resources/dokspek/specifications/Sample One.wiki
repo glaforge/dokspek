@@ -51,6 +51,16 @@ throw "Don't run me!"
 "Run me!"
 {{/test}}
 
+== Hidden code snippets ==
+
+We can have code snippets which are hidden. For example, if you want to hide common imports, etc.
+
+Beginning of the hidden snippet...
+{{test name="hidden-snippet" hidden="true"}}
+System.currentTimeMillis()
+{{/test}}
+...end of the hidden snippet.
+
 == An exception is expected ==
 
 Here, an IOException is expected:
