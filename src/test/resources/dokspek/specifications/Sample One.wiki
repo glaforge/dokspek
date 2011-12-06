@@ -16,6 +16,8 @@ Ordered elements
 
 An external link: [[Guillaume Laforge's blog>>http://glaforge.appspot.com]]
 
+A link to another document: [[Logical Branching>>Logical Branching.html]]
+
 == Passing tests ==
 
 {{test name="assert-true"}}
