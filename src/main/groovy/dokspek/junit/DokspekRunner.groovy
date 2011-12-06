@@ -62,7 +62,7 @@ class DokspekRunner extends Runner {
         runBeforeClass()
 
         List<Document> specDocs = DocumentCollector.collect(configuration)
-        specDocs.each { Document document ->
+        specDocs.eachWithIndex { Document document, int position ->
             // parse document, execute tests, render output
 
             def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
@@ -117,10 +117,12 @@ class DokspekRunner extends Runner {
                 }
             }
 
-            renderAndOutputReport(xdom, document)
+            renderAndOutputReport(xdom, document, position, specDocs)
         }
         
         runAfterClass()
+
+        tableOfContents(specDocs)
 
         copyAssets()
     }
@@ -144,6 +146,21 @@ class DokspekRunner extends Runner {
         outputDir.deleteDir()
     }
 
+    protected void tableOfContents(List<Document> specDocs) {
+        def tocTemplateFile = new File(configuration.templateDirectory, "toc.html")
+        assert tocTemplateFile.exists(), "Table of Content template file not found"
+
+        def engine = new SimpleTemplateEngine(false)
+        def template = engine.createTemplate(tocTemplateFile)
+
+        def outputDirectory = new File(configuration.outputDirectory)
+
+        new File(outputDirectory, 'index.html').withWriter('UTF-8') { Writer writer ->
+            writer << template.make([docs: specDocs])
+        }
+
+    }
+
     protected void copyAssets() {
         def assetsDir = new File(configuration.assetsDirectory)
         assert assetsDir.exists(), "The assets directory could not be found"
@@ -160,7 +177,7 @@ class DokspekRunner extends Runner {
         }
     }
 
-    protected void renderAndOutputReport(XDOM xdom, Document document) {
+    protected void renderAndOutputReport(XDOM xdom, Document document, int position, List<Document> specDocs) {
         def transform = componentManager.lookup(Transformation, "macro")
         def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
         transform.transform(xdom, xformContext)
@@ -180,8 +197,16 @@ class DokspekRunner extends Runner {
         def outputDirectory = new File(configuration.outputDirectory)
         if (!outputDirectory.exists()) outputDirectory.mkdirs()
 
+        boolean isFirst = position == 0
+        boolean isLast = position == specDocs.size()
+
         new File(outputDirectory, document.title + '.html').withWriter('UTF-8') { Writer writer ->
-            writer << template.make([title: document.title, content: printer.toString()])
+            writer << template.make([
+                    title: document.title,
+                    content: printer.toString(),
+                    previous: isFirst ? null : specDocs[position-1],
+                    next: isLast ? null : specDocs[position+1],
+            ])
         }
     }
 }

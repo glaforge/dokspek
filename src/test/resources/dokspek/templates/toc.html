@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Table of Content</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+<h1>Table of Contents</h1>
+<ul>
+<% docs.each { document -> %>
+    <li><a href="${document.title}.html">${document.title}</a></li>
+<% } %>
+</ul>
 </body>
 </html>

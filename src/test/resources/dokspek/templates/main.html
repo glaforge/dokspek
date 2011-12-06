@@ -12,5 +12,14 @@
 </head>
 <body onload="hljs.initHighlighting()">
 ${content}
+
+<hr>
+<% if (previous) { %>
+<a href="${previous.title}.html">&#171; ${previous.title}</a> |
+<% } %>
+<a href="index.html">Table of Content</a>
+<% if (next) { %> |
+<a href="${next.title}.html">${next.title} &#187;</a>
+<% } %>
 </body>
 </html>
