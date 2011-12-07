@@ -84,14 +84,14 @@ Two templates are used for generating the HTML reports:
 
 The templates are actually Groovy templates, using Groovy's builtin template engine.
 
-=== The Table of Content template ===
+=== The table of content template ===
 
 The Table of Content templates has access to a single variable called {{{docs}}} which represents a bean with two properties: the {{{title}}} and {{{content}}} of the specification document. In the table of content, you usually just need to care about the title.
 
 The below example shows a lightweight template for your table of content, that you can build upon (adding styles, images, etc.):
 
 {{html}}
-<pre><code class="html">&lt;!DOCTYPE html>
+<pre><code class="xml">&lt;!DOCTYPE html>
 &lt;html>
     &lt;head>
         &lt;title>Table of Content&lt;/title>
@@ -108,9 +108,36 @@ The below example shows a lightweight template for your table of content, that y
 </code></pre>
 {{/html}}
 
-=== The Main specification template ===
+=== The main specification template ===
 
+The main specification template has access to 4 variables:
+* the {{{title}}} of the current specification
+* the {{{content}}} of the current specification
+* the {{{previous}}} document if any
+* the {{{next}}} document if any
 
+A basic main template can look like the following:
+
+{{html}}
+<pre><code class="xml">&lt;!DOCTYPE html>
+&lt;html>
+    &lt;head>
+        &lt;title>${title}&lt;/title>
+    &lt;/head>
+    &lt;body>
+        ${content}
+        &lt;hr>
+        &lt;% if (previous) { %>
+            &lt;a href="${previous.title}.html">${previous.title}&lt;/a> |
+        &lt;% } %>
+        &lt;a href="index.html">Table of Content&lt;/a>
+        &lt;% if (next) { %> |
+            &lt;a href="${next.title}.html">${next.title}&lt;/a>
+        &lt;% } %>
+    &lt;/body>
+&lt;/html>
+</code></pre>
+{{/html}}
 
 == Assets to customize the reports ==
 
