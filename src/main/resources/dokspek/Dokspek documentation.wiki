@@ -141,4 +141,9 @@ A basic main template can look like the following:
 
 == Assets to customize the reports ==
 
+Your assets directory (potentially configured with {{{@Configuration}}}) can contain various resources you may need in the resulting HTML output, such as stylesheets, images, javascript code, etc. All the files should be at the root of that directory. Those assets will be copied in the output directory when the reports are being generated.
+
+For the current document you are reading, the highlight.js JavaScript library was used to propose syntax highlighting for the Groovy and HTML code fragments.
+
 == Authoring your specifications ==
+
