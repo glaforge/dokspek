@@ -152,7 +152,7 @@ With all that setup done, it's high time we write our first specification. A spe
 In addition to all the various markup possibilities, Dokspek introduces a special "macro", called {{{test}}}, which is used to mark your Groovy snippets. These elements instruct Dokspek to run these snippets as JUnit tests. Here's a first example of test:
 
 {{html}}
-<pre><code class="xwiki">Check that the addition of two numbers gives the correct result:
+<pre><code class="groovy">Check that the addition of two numbers gives the correct result:
 
 {{test name="addition-of-two-numbers"}}
     assert 1 + 2 == 3
@@ -164,9 +164,22 @@ A test is actually a Groovy script, so it can also contain classes as well.
 
 A test should have a (mandatory) unique name, so that you clearly know when a test fail which test it actually is.
 
-=== Prevent running a test ===
+=== Not running a test ===
 
-=== Hide a test ===
+For documentation purpose, for example, you might want certain Groovy snippets to not be run through the JUnit test runner. It is possible thanks to the {{{run}}} attribute:
+
+{{html}}
+<pre><code class="groovy">Example usage:
+
+{{test name="example-usage" run="false"}}
+    myObject.someMethod(1, 2, "abc")
+{{/test}}
+</code></pre>
+{{/html}}
+
+=== Hide a snippet ===
+
+You might want to run some particular snippet
 
 === Split a test over several snippets ===
 
