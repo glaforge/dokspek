@@ -147,3 +147,29 @@ For the current document you are reading, the highlight.js JavaScript library wa
 
 == Authoring your specifications ==
 
+With all that setup done, it's high time we write our first specification. A specification is a text file with a {{{.wiki}}} extension that is written using the XWiki 2.0 syntax. Be sure to read the documentation about the wiki markup supported.
+
+In addition to all the various markup possibilities, Dokspek introduces a special "macro", called {{{test}}}, which is used to mark your Groovy snippets. These elements instruct Dokspek to run these snippets as JUnit tests. Here's a first example of test:
+
+{{html}}
+<pre><code class="xwiki">Check that the addition of two numbers gives the correct result:
+
+{{test name="addition-of-two-numbers"}}
+    assert 1 + 2 == 3
+{{/test}}
+</code></pre>
+{{/html}}
+
+A test is actually a Groovy script, so it can also contain classes as well.
+
+A test should have a (mandatory) unique name, so that you clearly know when a test fail which test it actually is.
+
+=== Prevent running a test ===
+
+=== Hide a test ===
+
+=== Split a test over several snippets ===
+
+=== Expect a test to throw an exception ===
+
+=== Asserts a test should compile or not ===
