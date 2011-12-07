@@ -1,6 +1,117 @@
 = Dokspek =
 
-Dokspek is an **executable specification documentation system**.
+== What is Dokspek? ==
 
-{{test name="dummy" hidden="true"}}
+Dokspek is an **executable specification documentation** system.
+
+In a nutshell, you author **specification documents** using a **wiki markup** notation. You **insert Groovy scripts and classes** wherever you want, which are then **run as JUnit test cases**. Once the execution of your Groovy code is over, **customizable HTML reports are rendered** showing your prose, **syntax highlighted Groovy code**, and potential test failures and assertion errors.
+
+== Getting started ==
+
+To use Dokspek, you will need a few dependencies:
+* a recent version of Groovy //(used for the inserted Groovy scripts with assertions)//
+* the standalone XWiki rendering library //(for parsing the wiki markup documents and produce HTML reports)//
+* XWiki's mini component manager //(used internally by XWiki Rendering to set up all components)//
+* a recent version of JUnit //(to run your Groovy snippets as JUnit test cases)//
+
+=== Dependencies and minimal Gradle build ===
+
+The following Gradle build describes a minimal build file that you can use:
+
+{{test name="gradle-build" run="false"}}
+apply plugin: 'groovy'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:1.8.4'
+    // compile 'org.codehaus.groovy.module.dokspek:dokspek:1.0'
+    compile 'org.xwiki.commons:xwiki-commons-component-default:3.2'
+    compile 'org.xwiki.rendering:xwiki-rendering-standalone:3.2'
+    compile 'junit:junit:4.10'
+}
 {{/test}}
+
+=== Using Dokspek's special JUnit runner ===
+
+Before writing your first specification document, you will need to create a test class that will be run by Dokspek's custom JUnit runner, collecting all your specifications, extracting all the Groovy snippets, and executing them as JUnit tests.
+
+Create a class in your test sources that looks like the below one:
+
+{{test name="test-case" run="false"}}
+import org.junit.runner.RunWith
+import dokspek.junit.DokspekRunner
+
+@RunWith(DokspekRunner)
+class RunSpecifications { }
+{{/test}}
+
+With that test class created, you only need to run that class with JUnit, from your build tool or your IDE. For instance, if you use the proposed minimal Gradle build file, you would just have to run {{{gradle test}}} to have the tests embedded in your specification being run and have Dokspek produce the resulting HTML reports.
+
+Dokspek expects to find some specific resources in default locations to find your specifications, the CSS stylesheets, JavaScript or images, as well as some templates to further customize the structure and appearance of your specification HTML reports.
+
+=== Customizing directory locations ===
+
+By default, Dokspek is searching for:
+* **specifications** //(*.wiki files)// in {{{src/test/resources/dokspek/specifications}}}
+* **assets** //(images, CSS, HTML, at the root of the directory)// in {{{src/test/resources/dokspek/assets}}}
+* **templates** //(main.html and toc.html)// in {{{src/test/resources/dokspek/templates}}}
+* **output directory** //(where you'll be able to find the rendered reports)// in {{{build/reports/dokspek}}}
+
+If you want to change those defaults, you can use the {{{@Configuration}}} annotation. For example, the following test class configures different directories:
+
+{{test name="test-case-with-configuration" run="false"}}
+import org.junit.runner.RunWith
+import dokspek.junit.DokspekRunner
+
+@RunWith(DokspekRunner)
+@Configuration(
+    outputDirectory = 'target/reports',
+    assetsDirectory = 'src/resources/assets',
+    specificationDirectory = 'src/resources/specs',
+    templateDirectory = 'src/resources/templates'
+)
+class RunSpecifications { }
+{{/test}}
+
+== Templates ==
+
+Two templates are used for generating the HTML reports:
+* {{{toc.html}}} which will contain a table of content, ie. a list of links to all the specification wiki documents
+* {{{main.html}}} that is the main template used for rendering each specification document
+
+The templates are actually Groovy templates, using Groovy's builtin template engine.
+
+=== The Table of Content template ===
+
+The Table of Content templates has access to a single variable called {{{docs}}} which represents a bean with two properties: the {{{title}}} and {{{content}}} of the specification document. In the table of content, you usually just need to care about the title.
+
+The below example shows a lightweight template for your table of content, that you can build upon (adding styles, images, etc.):
+
+{{html}}
+<pre><code class="html">&lt;!DOCTYPE html>
+&lt;html>
+    &lt;head>
+        &lt;title>Table of Content&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>Table of Contents&lt;/h1>
+        &lt;ul>
+        <% docs.each { document -> %>
+            &lt;li>&lt;a href="${document.title}.html">${document.title}&lt;/a>&lt;/li>
+        <% } %>
+        &lt;/ul>
+    &lt;/body>
+&lt;/html>
+</code></pre>
+{{/html}}
+
+=== The Main specification template ===
+
+
+
+== Assets to customize the reports ==
+
+== Authoring your specifications ==
