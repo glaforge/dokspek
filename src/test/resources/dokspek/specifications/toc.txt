@@ -1,2 +1,3 @@
 Logical Branching.wiki
 Sample One.wiki
+Quick Start.wiki
