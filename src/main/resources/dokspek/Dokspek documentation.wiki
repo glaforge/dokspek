@@ -177,12 +177,70 @@ For documentation purpose, for example, you might want certain Groovy snippets t
 </code></pre>
 {{/html}}
 
-=== Hide a snippet ===
+=== Expect a test to throw an exception ===
 
-You might want to run some particular snippet
+In your specification, you want to show that a certain usage of the API you are testing would yield an exception, then you can use the {{{throws}}} parameter to explicitly say that this piece of code should be run, and that Dokspek should check that a specific exception is thrown:
+
+{{html}}
+<pre><code class="groovy">Throw an exception:
+
+{{test name="throws-an-exception" throws="java.io.IOException"}}
+    throw new IOException("kaboom")
+{{/test}}
+</code></pre>
+{{/html}}
+
+=== Asserts a test should compile or not ===
+
+As well as you can asserts that a snippet of code throws an exception, you can also check that a piece of code is not compilable, thanks to the {{{compiles}}} attribute:
+
+{{html}}
+<pre><code class="groovy">The following code is not compilable:
+
+{{test name="non-compilable-code" compiles="false"}}
+    if else abstract throw
+{{/test}}
+</code></pre>
+{{/html}}
 
 === Split a test over several snippets ===
 
-=== Expect a test to throw an exception ===
+Writing a specification explaining several steps to be followed, you would want to insert some narratives between each steps, so that the flow of reading is easier and explanations can be placed appropriately. With the {{{dependsOn}}} attribute, you could split one test over several snippets. You can combine this attribute with {{{runs="false"}}} so that the first snippets aren't executed as is, and only the last one with the {{{dependsOn}}} attribute is ran, concatenating all the scripts depended upon together to run as a single unit of test.
 
-=== Asserts a test should compile or not ===
+Let's see that with an example:
+
+{{html}}
+<pre><code class="groovy">Given the following class:
+
+{{test name="person-class" run="false"}}
+    class Person {
+        String name
+        int age
+    }
+{{/test}}
+
+When you instantiate that class:
+
+{{test name="person-instance" run="false"}}
+    def person = new Person(name: 'Guillaume', age: 34)
+{{/test}}
+
+Then you can check the values of the properties of that class:
+
+{{test name="person-checks" dependsOn="person-class,person-instance"}}
+    assert person.name == 'Guillaume'
+    assert person.age == 34
+{{/test}}
+</code></pre>
+{{/html}}
+
+=== Hide a snippet ===
+
+You might want to hide a particular snippet, for example to hide common imports or setup code that you don't want to repeat to focus on the task at hand, rather than on the boilerplate aspects surrounding the feature you want to test. The {{{hide}}} attribute will help you achieve that goal:
+
+{{html}}
+<pre><code class="groovy">{{test name="hidden-snippet" hidden="true"}}
+    System.currentTimeMillis()
+{{/test}}
+</code></pre>
+{{/html}}

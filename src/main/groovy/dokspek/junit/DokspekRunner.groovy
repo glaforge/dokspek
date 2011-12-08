@@ -86,7 +86,7 @@ class DokspekRunner extends Runner {
 
                             // concatenate dependent scripts together to form one single script to execute
                             if (mb.getParameter('dependsOn')) {
-                                String[] dependentScripts = mb.getParameter('dependsOn').split(',')
+                                def dependentScripts = mb.getParameter('dependsOn').split(',').collect { it.trim() }
                                 def concatenatedScripts = dependentScripts.collect { String scriptName -> scripts[scriptName] } << scriptText
                                 scriptText = concatenatedScripts.join('\n')
                             }

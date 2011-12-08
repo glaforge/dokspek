@@ -96,7 +96,7 @@ class Person {
 }
 {{/test}}
 
-When you instanciate that class:
+When you instantiate that class:
 
 {{test name="person-instance" run="false"}}
 def person = new Person(name: 'Guillaume', age: 34)
