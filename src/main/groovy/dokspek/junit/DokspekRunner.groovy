@@ -70,12 +70,15 @@ class DokspekRunner extends Runner {
             def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
             def xdom = parser.parse(new StringReader(document.content))
 
-            addAnchors(xdom)
+            List<MacroBlock> allScriptBlocks = xdom.getBlocks(new MacroBlockMatcher('test'), Block.Axes.DESCENDANT)
+            List<MacroBlock> allHeaderBlocks = xdom.getBlocks(new ClassBlockMatcher(HeaderBlock), Block.Axes.DESCENDANT)
+
+            addScriptAnchors(allScriptBlocks)
+            addHeaderAnchors(allHeaderBlocks)
 
             // keep a map of script names and script contents
             Map<String, String> scripts = [:] 
                     
-            List<MacroBlock> allScriptBlocks = xdom.getBlocks(new MacroBlockMatcher('test'), Block.Axes.DESCENDANT)
             allScriptBlocks.each { MacroBlock mb ->
                 scripts[mb.getParameter('name')] = mb.content
                 
@@ -131,11 +134,15 @@ class DokspekRunner extends Runner {
         copyAssets()
     }
 
-    void addAnchors(XDOM xdom) {
-        def headerBlocks = xdom.getBlocks(new ClassBlockMatcher(HeaderBlock), Block.Axes.DESCENDANT)
+    private void addHeaderAnchors(List<HeaderBlock> blocks) {
+        blocks.each { HeaderBlock block ->
+            block.parent.insertChildBefore(new RawBlock("<a name='${block.id}'></a>", Syntax.XHTML_1_0), block)
+        }
+    }
 
-        headerBlocks.each { HeaderBlock hb ->
-            hb.parent.insertChildBefore(new RawBlock("<a name='${hb.id}'></a>", Syntax.XHTML_1_0), hb)
+    private void addScriptAnchors(List<MacroBlock> blocks) {
+        blocks.each { MacroBlock block ->
+            block.parent.insertChildBefore(new RawBlock("<a name='${block.getParameter('name')}'></a>", Syntax.XHTML_1_0), block)
         }
     }
 
