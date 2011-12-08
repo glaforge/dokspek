@@ -27,6 +27,8 @@ import org.codehaus.groovy.control.CompilationFailedException
 import java.lang.reflect.Method
 import org.junit.BeforeClass
 import org.junit.AfterClass
+import org.xwiki.rendering.block.match.ClassBlockMatcher
+import org.xwiki.rendering.block.HeaderBlock
 
 /**
  *
@@ -67,6 +69,8 @@ class DokspekRunner extends Runner {
 
             def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
             def xdom = parser.parse(new StringReader(document.content))
+
+            addAnchors(xdom)
 
             // keep a map of script names and script contents
             Map<String, String> scripts = [:] 
@@ -125,6 +129,14 @@ class DokspekRunner extends Runner {
         tableOfContents(specDocs)
 
         copyAssets()
+    }
+
+    void addAnchors(XDOM xdom) {
+        def headerBlocks = xdom.getBlocks(new ClassBlockMatcher(HeaderBlock), Block.Axes.DESCENDANT)
+
+        headerBlocks.each { HeaderBlock hb ->
+            hb.parent.insertChildBefore(new RawBlock("<a name='${hb.id}'></a>", Syntax.XHTML_1_0), hb)
+        }
     }
 
     protected void runBeforeClass() {
