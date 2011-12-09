@@ -29,7 +29,7 @@ this.args.each{ arg -> println "hello, ${arg}"}
 
 To run it from command line
 
-{{test name="not-a-test"" run="false"}}
+{{test name="not-a-test" run="false"}}
 groovy hello.groovy MyName yourName HisName
 {{/test}}
 
