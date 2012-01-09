@@ -112,8 +112,6 @@ class DokspekRunner extends ParentRunner<Document> {
                         if (t.class.name != mb.getParameter('throws'))
                             throw t
                     }
-
-                    notifier.fireTestFinished(description)
                 } catch (Throwable t) {
                     notifier.fireTestFailure(new Failure(description, t))
 
@@ -124,6 +122,8 @@ class DokspekRunner extends ParentRunner<Document> {
                     def failureStacktraceBlock =
                         new RawBlock("<div class='stacktrace-message'>${sw}</div>", Syntax.XHTML_1_0)
                     mb.parent.insertChildAfter(failureStacktraceBlock, mb)
+                } finally {
+                    notifier.fireTestFinished(description)
                 }
             }
         }
