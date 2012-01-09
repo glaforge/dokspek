@@ -5,9 +5,7 @@ import dokspek.DocumentCollector
 import dokspek.Utilities
 import dokspek.model.Document
 import groovy.text.SimpleTemplateEngine
-import java.lang.annotation.Annotation
 import org.junit.runner.Description
-import org.junit.runner.Runner
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunNotifier
 import org.xwiki.component.embed.EmbeddableComponentManager
@@ -29,20 +27,22 @@ import org.junit.BeforeClass
 import org.junit.AfterClass
 import org.xwiki.rendering.block.match.ClassBlockMatcher
 import org.xwiki.rendering.block.HeaderBlock
+import org.junit.runners.ParentRunner
 
 /**
  *
  * @author Guillaume Laforge
  */
-class DokspekRunner extends Runner {
+class DokspekRunner extends ParentRunner<Document> {
 
     protected final ConfigurationHolder configuration
     protected GroovyShell shell
     private EmbeddableComponentManager componentManager
     private Class testClass
+    @Lazy List<Document> documents = DocumentCollector.collect(configuration)
 
     DokspekRunner(Class testClass) {
-        super()
+        super(testClass)
         
         this.testClass = testClass
 
@@ -54,82 +54,93 @@ class DokspekRunner extends Runner {
         this.shell = new GroovyShell()
     }
 
-    Description getDescription() {
-        return Description.createSuiteDescription("Dokspek", new Annotation[0])
+    @Override
+    protected List<Document> getChildren() {
+        return documents
+    }
+
+    @Override
+    protected Description describeChild(Document document) {
+        def description = Description.createSuiteDescription(this.testClass)
+
+
+        return description
+    }
+
+    @Override
+    protected void runChild(Document document, RunNotifier notifier) {
+        // parse document, execute tests, render output
+
+        def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
+        def xdom = parser.parse(new StringReader(document.content))
+
+        List<MacroBlock> allScriptBlocks = xdom.getBlocks(new MacroBlockMatcher('test'), Block.Axes.DESCENDANT)
+        List<HeaderBlock> allHeaderBlocks = xdom.getBlocks(new ClassBlockMatcher(HeaderBlock), Block.Axes.DESCENDANT)
+
+        addScriptAnchors(allScriptBlocks)
+        addHeaderAnchors(allHeaderBlocks)
+
+        // keep a map of script names and script contents
+        Map<String, String> scripts = [:]
+
+        allScriptBlocks.each { MacroBlock mb ->
+            scripts[mb.getParameter('name')] = mb.content
+
+            // don't run the snippet as a test if marked with run="false"
+            if (mb.getParameter('run') != "false") {
+                def description = Description.createTestDescription(Utilities.customClassName(document.title), mb.getParameter('name'))
+                try {
+                    notifier.fireTestStarted(description)
+
+                    try {
+                        String scriptText = mb.content
+
+                        // concatenate dependent scripts together to form one single script to execute
+                        if (mb.getParameter('dependsOn')) {
+                            def dependentScripts = mb.getParameter('dependsOn').split(',').collect { it.trim() }
+                            def concatenatedScripts = dependentScripts.collect { String scriptName -> scripts[scriptName] } << scriptText
+                            scriptText = concatenatedScripts.join('\n')
+                        }
+
+                        shell.evaluate(scriptText, mb.getParameter('name'))
+                    } catch (CompilationFailedException cfe) {
+                        // if snippet marked as "compiles=false", a compilation exception is expected
+                        if (mb.getParameter('compiles') != 'false')
+                            throw cfe
+                    } catch (Throwable t) {
+                        // if snippet marked as "throws", check that the right exception is thrown
+                        if (t.class.name != mb.getParameter('throws'))
+                            throw t
+                    }
+
+                    notifier.fireTestFinished(description)
+                } catch (Throwable t) {
+                    notifier.fireTestFailure(new Failure(description, t))
+
+                    Utilities.deepSanitize(t)
+
+                    def sw = new StringWriter()
+                    t.printStackTrace(new PrintWriter(sw))
+                    def failureStacktraceBlock =
+                        new RawBlock("<div class='stacktrace-message'>${sw}</div>", Syntax.XHTML_1_0)
+                    mb.parent.insertChildAfter(failureStacktraceBlock, mb)
+                }
+            }
+        }
+
+        renderAndOutputReport(xdom, document)
     }
 
     void run(RunNotifier notifier) {
         setupDirectory()
-        
+
         runBeforeClass()
 
-        List<Document> specDocs = DocumentCollector.collect(configuration)
-        specDocs.eachWithIndex { Document document, int position ->
-            // parse document, execute tests, render output
+        super.run(notifier)
 
-            def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
-            def xdom = parser.parse(new StringReader(document.content))
-
-            List<MacroBlock> allScriptBlocks = xdom.getBlocks(new MacroBlockMatcher('test'), Block.Axes.DESCENDANT)
-            List<MacroBlock> allHeaderBlocks = xdom.getBlocks(new ClassBlockMatcher(HeaderBlock), Block.Axes.DESCENDANT)
-
-            addScriptAnchors(allScriptBlocks)
-            addHeaderAnchors(allHeaderBlocks)
-
-            // keep a map of script names and script contents
-            Map<String, String> scripts = [:] 
-                    
-            allScriptBlocks.each { MacroBlock mb ->
-                scripts[mb.getParameter('name')] = mb.content
-                
-                // don't run the snippet as a test if marked with run="false"
-                if (mb.getParameter('run') != "false") {
-                    def description = Description.createTestDescription(Utilities.customClassName(document.title), mb.getParameter('name'))
-                    try {
-                        notifier.fireTestStarted(description)
-
-                        try {
-                            String scriptText = mb.content
-
-                            // concatenate dependent scripts together to form one single script to execute
-                            if (mb.getParameter('dependsOn')) {
-                                def dependentScripts = mb.getParameter('dependsOn').split(',').collect { it.trim() }
-                                def concatenatedScripts = dependentScripts.collect { String scriptName -> scripts[scriptName] } << scriptText
-                                scriptText = concatenatedScripts.join('\n')
-                            }
-                            
-                            shell.evaluate(scriptText, mb.getParameter('name'))
-                        } catch (CompilationFailedException cfe) {
-                            // if snippet marked as "compiles=false", a compilation exception is expected
-                            if (mb.getParameter('compiles') != 'false')
-                                throw cfe
-                        } catch (Throwable t) {
-                            // if snippet marked as "throws", check that the right exception is thrown
-                            if (t.class.name != mb.getParameter('throws'))
-                                throw t
-                        }
-
-                        notifier.fireTestFinished(description)
-                    } catch (Throwable t) {
-                        notifier.fireTestFailure(new Failure(description, t))
-
-                        Utilities.deepSanitize(t)
-
-                        def sw = new StringWriter()
-                        t.printStackTrace(new PrintWriter(sw))
-                        def failureStacktraceBlock =
-                            new RawBlock("<div class='stacktrace-message'>${sw}</div>", Syntax.XHTML_1_0)
-                        mb.parent.insertChildAfter(failureStacktraceBlock, mb)
-                    }
-                }
-            }
-
-            renderAndOutputReport(xdom, document, position, specDocs)
-        }
-        
         runAfterClass()
 
-        tableOfContents(specDocs)
+        tableOfContents()
 
         copyAssets()
     }
@@ -165,7 +176,7 @@ class DokspekRunner extends Runner {
         outputDir.deleteDir()
     }
 
-    protected void tableOfContents(List<Document> specDocs) {
+    protected void tableOfContents() {
         def tocTemplateFile = new File(configuration.templateDirectory, "toc.html")
         assert tocTemplateFile.exists(), "Table of Content template file not found"
 
@@ -175,9 +186,8 @@ class DokspekRunner extends Runner {
         def outputDirectory = new File(configuration.outputDirectory)
 
         new File(outputDirectory, 'index.html').withWriter('UTF-8') { Writer writer ->
-            writer << template.make([docs: specDocs])
+            writer << template.make([docs: documents])
         }
-
     }
 
     protected void copyAssets() {
@@ -196,7 +206,7 @@ class DokspekRunner extends Runner {
         }
     }
 
-    protected void renderAndOutputReport(XDOM xdom, Document document, int position, List<Document> specDocs) {
+    protected void renderAndOutputReport(XDOM xdom, Document document) {
         def transform = componentManager.lookup(Transformation, "macro")
         def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
         transform.transform(xdom, xformContext)
@@ -216,15 +226,12 @@ class DokspekRunner extends Runner {
         def outputDirectory = new File(configuration.outputDirectory)
         if (!outputDirectory.exists()) outputDirectory.mkdirs()
 
-        boolean isFirst = position == 0
-        boolean isLast = position == specDocs.size()
-
         new File(outputDirectory, document.title + '.html').withWriter('UTF-8') { Writer writer ->
             writer << template.make([
                     title: document.title,
                     content: printer.toString(),
-                    previous: isFirst ? null : specDocs[position-1],
-                    next: isLast ? null : specDocs[position+1],
+                    previous: document.previous,
+                    next: document.next
             ])
         }
     }

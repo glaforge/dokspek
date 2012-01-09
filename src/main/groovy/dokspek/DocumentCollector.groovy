@@ -16,15 +16,22 @@ class DocumentCollector {
         def tocFile = new File(specificationDirectory, "toc.txt")
 
         List<Document> docs = []
+        Document previous = null
 
         // if there's a table of content indicating the spec files and their order, use that
         // otherwise, search all the spec files in that directory
         if (tocFile.exists()) {
             tocFile.eachLine { String fileName ->
-                def spec = new File(specificationDirectory, fileName)
-                assert spec.exists(), "The specification ${fileName} couldn't be found"
+                if (fileName.trim() && !fileName.startsWith('#')) {
+                    def spec = new File(specificationDirectory, fileName)
+                    assert spec.exists(), "The specification ${fileName} couldn't be found"
 
-                docs << new Document(fileNameWithoutExtension(spec.name), spec.getText('UTF-8'))
+                    def newDoc = new Document(fileNameWithoutExtension(spec.name), spec.getText('UTF-8'), previous)
+                    if (previous) previous.next = newDoc
+                    previous = newDoc
+
+                    docs << newDoc
+                }
             }
         } else {
             specificationDirectory.eachFileRecurse(FileType.FILES) { File spec ->

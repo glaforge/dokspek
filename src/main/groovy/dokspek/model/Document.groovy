@@ -11,5 +11,8 @@ class Document {
     String title
     String content
     
+    Document previous
+    Document next
+    
     String toString() { "Spec: ${title}" }
 }
