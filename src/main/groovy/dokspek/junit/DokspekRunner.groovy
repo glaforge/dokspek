@@ -61,9 +61,7 @@ class DokspekRunner extends ParentRunner<Document> {
 
     @Override
     protected Description describeChild(Document document) {
-        def description = Description.createSuiteDescription(this.testClass)
-
-
+        def description = Description.createSuiteDescription(Utilities.customClassName(document.title))
         return description
     }
 

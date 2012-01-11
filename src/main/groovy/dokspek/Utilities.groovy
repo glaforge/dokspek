@@ -5,9 +5,13 @@ package dokspek
  * @author Guillaume Laforge
  */
 class Utilities {
-    static Class customClassName(String label) {
+    private static Map CLASS_CACHE = [:].withDefault { label ->
         String replacement = label.replaceAll('[^a-zA-Z0-9]', '')
         Eval.me("class ${replacement} {}; ${replacement}")
+    }
+
+    static Class customClassName(String label) {
+        CLASS_CACHE[label]
     }
 
     private static void sanitizeStacktrace(Throwable t) {
