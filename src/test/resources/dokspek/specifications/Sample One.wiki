@@ -1,5 +1,7 @@
 = Sample One =
 
+{{toc numbered=yes start=2/}}
+
 This is a **sample** //document//.
 
 A few unordered elements:
@@ -7,6 +9,18 @@ A few unordered elements:
 ** sub element
 * element two
 * element three
+
+{{info}}
+Some information
+{{/info}}
+
+{{warning}}
+Some warning
+{{/warning}}
+
+{{error}}
+Some error
+{{/error}}
 
 Ordered elements
 1. element one
@@ -26,7 +40,7 @@ assert true
 
 == Failing tests ==
 
-A test that fails with an exception
+A test that fails with an exception{{footnote}}A missing method exception should be thrown in the example{{/footnote}}
 
 {{test name="list-sum"}}
 def list = [1, 2, 3]
