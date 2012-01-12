@@ -303,12 +303,12 @@ caption {
 }
 
 .warningmessage:before {
-    content: url("exclamation.gif");
+    content: url("error.gif");
     margin-right: 10px;
 }
 
 .errormessage:before {
-    content: url("error.gif");
+    content: url("exclamation.gif");
     margin-right: 10px;
 }
 
