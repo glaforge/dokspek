@@ -18,6 +18,8 @@ body {
     font-family: sans-serif;
     margin: 20px;
     margin-left: 30px;
+
+    counter-reset: counter-h1;
 }
 
 table {
@@ -62,19 +64,39 @@ h1 {
     font-size: 2.6em;
     margin-bottom: 0.9em;
     border-bottom: 1px solid gray;
+
+    counter-reset: counter-h2;
 }
 
 h2 {
     font-size: 2em;
+
+    counter-reset: counter-h3;
+}
+
+h2:before {
+    content: counter(counter-h2) " - ";
+    counter-increment: counter-h2;
 }
 
 h3 {
     font-size: 1.5em;
+
+    counter-reset: counter-h4;
+}
+
+h3:before {
+    content: counter(counter-h2) "." counter(counter-h3) " - ";
+    counter-increment: counter-h3;
 }
 
 h4 {
     font-size: 1.25em;
 }
+
+h4:before {
+    content: counter(counter-h2) "." counter(counter-h3) "." counter(counter-h4) " - ";
+    counter-increment: counter-h4;}
 
 h5 {
     font-size: 1.1em;
@@ -165,7 +187,7 @@ li ul, li ol {
 }
 
 ul, ol {
-    margin: 0 1.5em 1.5em 1.5em;
+    margin: 0 1.5em 0em 1.5em;
 }
 
 ul {

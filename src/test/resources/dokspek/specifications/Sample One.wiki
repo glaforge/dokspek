@@ -1,14 +1,34 @@
 = Sample One =
 
+**Content of this chapter**
+
 {{toc numbered=yes start=2/}}
 
+== Some styles ==
+
+=== Bold and italic ===
+
 This is a **sample** //document//.
+
+=== Lists ===
+
+==== Unordered ====
 
 A few unordered elements:
 * element one
 ** sub element
 * element two
 * element three
+
+==== Ordered lists ====
+
+Ordered elements
+1. element one
+11. sub element
+1. element two
+1. element three
+
+=== Info, warning, error ===
 
 {{info}}
 Some information
@@ -22,11 +42,7 @@ Some warning
 Some error
 {{/error}}
 
-Ordered elements
-1. element one
-11. sub element
-1. element two
-1. element three
+=== Links ===
 
 An external link: [[Guillaume Laforge's blog>>http://glaforge.appspot.com]]
 
