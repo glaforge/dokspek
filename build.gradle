@@ -13,13 +13,6 @@ dependencies {
     compile 'junit:junit:4.10'
 }
 
-task makeDirs(description: 'Create all directories for project setup') << {
-    def sources = [sourceSets.main, sourceSets.test]
-    sources*.allSource*.srcDirs.flatten().each { File srcDir ->
-        srcDir.mkdirs()
-    } 
-}
-
 task wrap(type: Wrapper, description: "Create the gradlew wrapper") {
     gradleVersion = '1.0-milestone-7'
 }
