@@ -33,7 +33,8 @@ class Utilities {
     static void deepSanitize(Throwable t) {
         Throwable current = t
         while (current.cause != null) {
-            current = sanitizeStacktrace(current.cause)
+            current = current.cause
+            sanitizeStacktrace(current)
         }
         sanitizeStacktrace(t);
     }
