@@ -9,6 +9,7 @@ import org.xwiki.rendering.block.WordBlock
 import org.xwiki.rendering.block.VerbatimBlock
 import org.xwiki.rendering.block.RawBlock
 import org.xwiki.rendering.syntax.Syntax
+import groovy.transform.CompileStatic
 
 /**
  * 
@@ -16,6 +17,7 @@ import org.xwiki.rendering.syntax.Syntax
  */
 @Component
 @Named("test")
+@CompileStatic
 class GroovyTestMacro extends AbstractMacro<GroovyTestMacroParameters> {
 
     GroovyTestMacro() {
