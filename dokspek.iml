@@ -12,115 +12,126 @@
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
-    <orderEntry type="jdk" jdkName="$project_jdk_name$" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-component-default/c12498cf18507aa6433a94eb7d3e77d5/jars/xwiki-commons-component-default-3.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-component-default/3.3-milestone-2/jar/xwiki-commons-component-default-3.3-milestone-2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-component-default/c12498cf18507aa6433a94eb7d3e77d5/sources/xwiki-commons-component-default-3.2-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-component-default/3.3-milestone-2/source/xwiki-commons-component-default-3.3-milestone-2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-component-api/c12498cf18507aa6433a94eb7d3e77d5/jars/xwiki-commons-component-api-3.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.rendering/xwiki-rendering-standalone/3.3-milestone-2/jar/xwiki-rendering-standalone-3.3-milestone-2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-component-api/c12498cf18507aa6433a94eb7d3e77d5/sources/xwiki-commons-component-api-3.2-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.rendering/xwiki-rendering-standalone/3.3-milestone-2/source/xwiki-rendering-standalone-3.3-milestone-2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.slf4j/slf4j-api/c12498cf18507aa6433a94eb7d3e77d5/jars/slf4j-api-1.6.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/junit/junit/4.10/jar/junit-4.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.slf4j/slf4j-api/c12498cf18507aa6433a94eb7d3e77d5/sources/slf4j-api-1.6.2-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/junit/junit/4.10/source/junit-4.10-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/javax.inject/javax.inject/c12498cf18507aa6433a94eb7d3e77d5/jars/javax.inject-1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.slf4j/slf4j-api/1.6.4/jar/slf4j-api-1.6.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/javax.inject/javax.inject/c12498cf18507aa6433a94eb7d3e77d5/sources/javax.inject-1-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.slf4j/slf4j-api/1.6.4/source/slf4j-api-1.6.4-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-component-observation/c12498cf18507aa6433a94eb7d3e77d5/jars/xwiki-commons-component-observation-3.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/javax.inject/javax.inject/1/jar/javax.inject-1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-component-observation/c12498cf18507aa6433a94eb7d3e77d5/sources/xwiki-commons-component-observation-3.2-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/javax.inject/javax.inject/1/source/javax.inject-1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-observation-api/c12498cf18507aa6433a94eb7d3e77d5/jars/xwiki-commons-observation-api-3.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-component-api/3.3-milestone-2/jar/xwiki-commons-component-api-3.3-milestone-2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.commons/xwiki-commons-observation-api/c12498cf18507aa6433a94eb7d3e77d5/sources/xwiki-commons-observation-api-3.2-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-component-api/3.3-milestone-2/source/xwiki-commons-component-api-3.3-milestone-2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.rendering/xwiki-rendering-standalone/c12498cf18507aa6433a94eb7d3e77d5/jars/xwiki-rendering-standalone-3.2.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.apache.commons/commons-lang3/3.1/jar/commons-lang3-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.xwiki.rendering/xwiki-rendering-standalone/c12498cf18507aa6433a94eb7d3e77d5/sources/xwiki-rendering-standalone-3.2-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.apache.commons/commons-lang3/3.1/source/commons-lang3-3.1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/junit/junit/c12498cf18507aa6433a94eb7d3e77d5/jars/junit-4.10.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-observation-api/3.3-milestone-2/jar/xwiki-commons-observation-api-3.3-milestone-2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/junit/junit/c12498cf18507aa6433a94eb7d3e77d5/sources/junit-4.10-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-observation-api/3.3-milestone-2/source/xwiki-commons-observation-api-3.3-milestone-2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.hamcrest/hamcrest-core/c12498cf18507aa6433a94eb7d3e77d5/jars/hamcrest-core-1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-component-observation/3.3-milestone-2/jar/xwiki-commons-component-observation-3.3-milestone-2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.hamcrest/hamcrest-core/c12498cf18507aa6433a94eb7d3e77d5/sources/hamcrest-core-1.1-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.xwiki.commons/xwiki-commons-component-observation/3.3-milestone-2/source/xwiki-commons-component-observation-3.3-milestone-2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.codehaus.groovy/groovy-all/c12498cf18507aa6433a94eb7d3e77d5/jars/groovy-all-1.8.4.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.hamcrest/hamcrest-core/1.1/jar/hamcrest-core-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-3/org.codehaus.groovy/groovy-all/c12498cf18507aa6433a94eb7d3e77d5/sources/groovy-all-1.8.4-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.gradle/caches/artifacts-7/artifacts/56865c09425cc6ecda8606d7e6035ceb/org.hamcrest/hamcrest-core/1.1/source/hamcrest-core-1.1-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../OPENSOURCE/GROOVY/groovy-git/groovy-git/target/install/embeddable/groovy-all-2.0.0-beta-3-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../OPENSOURCE/GROOVY/groovy-git/groovy-git/target/dist/groovy-all-2.0.0-beta-3-SNAPSHOT-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
