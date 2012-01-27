@@ -28,11 +28,13 @@ import org.junit.AfterClass
 import org.xwiki.rendering.block.match.ClassBlockMatcher
 import org.xwiki.rendering.block.HeaderBlock
 import org.junit.runners.ParentRunner
+import groovy.transform.CompileStatic
 
 /**
  *
  * @author Guillaume Laforge
  */
+@CompileStatic
 class DokspekRunner extends ParentRunner<Document> {
 
     protected final ConfigurationHolder configuration
@@ -95,7 +97,7 @@ class DokspekRunner extends ParentRunner<Document> {
 
                         // concatenate dependent scripts together to form one single script to execute
                         if (mb.getParameter('dependsOn')) {
-                            def dependentScripts = mb.getParameter('dependsOn').split(',').collect { it.trim() }
+                            def dependentScripts = mb.getParameter('dependsOn').split(',').collect { String it -> it.trim() }
                             def concatenatedScripts = dependentScripts.collect { String scriptName -> scripts[scriptName] } << scriptText
                             scriptText = concatenatedScripts.join('\n')
                         }

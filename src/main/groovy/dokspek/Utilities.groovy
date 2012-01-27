@@ -1,11 +1,14 @@
 package dokspek
 
+import groovy.transform.CompileStatic
+
 /**
  *
  * @author Guillaume Laforge
  */
+@CompileStatic
 class Utilities {
-    private static Map CLASS_CACHE = [:].withDefault { label ->
+    private static Map CLASS_CACHE = [:].withDefault { String label ->
         String replacement = label.replaceAll('[^a-zA-Z0-9]', '')
         Eval.me("class ${replacement} {}; ${replacement}")
     }
@@ -21,12 +24,13 @@ class Utilities {
         ]
         def trace = t.stackTrace
         def newTrace = []
-        trace.each { stackTraceElement ->
-            if (filtered.every { !stackTraceElement.className.startsWith(it) }) {
+        trace.each { StackTraceElement stackTraceElement ->
+            if (filtered.every { String it -> !stackTraceElement.className.startsWith(it) }) {
                 newTrace << stackTraceElement
             }
         }
-        def clean = newTrace.toArray(newTrace as StackTraceElement[])
+
+        def clean = (StackTraceElement[]) newTrace.toArray(newTrace as StackTraceElement[])
         t.stackTrace = clean
     }
 
