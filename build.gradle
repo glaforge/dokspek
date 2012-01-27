@@ -3,11 +3,21 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
+    mavenRepo url: 'http://snapshots.repository.codehaus.org/'
 }
 
+// Use the system property as long as the Groovy SNAPSHOT doesn't include static compiler
+def groovyAllJar = System.getProperty('groovy.jar')
+def groovyVersion = '2.0.0-beta-3-SNAPSHOT'
+
 dependencies {
-//    groovy 'org.codehaus.groovy:groovy-all:1.8.5'
-    groovy files('/home/cchampeau/DEV/PROJECTS/OPENSOURCE/GROOVY/groovy-git/groovy-git/target/install/embeddable/groovy-all-2.0.0-beta-3-SNAPSHOT.jar')
+    if (groovyAllJar) {
+        println "Using Groovy jar: $groovyAllJar"
+        groovy files(groovyAllJar)
+    } else {
+        println "Groovy ${groovyVersion}"
+        groovy "org.codehaus.groovy:groovy-all:$groovyVersion"
+    }
     compile 'org.xwiki.commons:xwiki-commons-component-default:3.3-milestone-2'
     compile 'org.xwiki.rendering:xwiki-rendering-standalone:3.3-milestone-2'
     compile 'junit:junit:4.10'
@@ -16,7 +26,3 @@ dependencies {
 task wrap(type: Wrapper, description: "Create the gradlew wrapper") {
     gradleVersion = '1.0-milestone-7'
 }
-
-//compileGroovy.groovyOptions.fork = true
-//compileGroovy.options.compilerArgs = ["-Xdebug", "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"]
-
