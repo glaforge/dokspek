@@ -1,14 +1,14 @@
 package dokspek
 
 import groovy.transform.TupleConstructor
-import groovy.transform.CompileStatic
+//import groovy.transform.CompileStatic
 
 /**
  * 
  * @author Guillaume Laforge
  */
 @TupleConstructor
-@CompileStatic
+//@CompileStatic
 class ConfigurationHolder {
     String specificationDirectory   = "src/test/resources/dokspek/specifications"
     String assetsDirectory          = "src/test/resources/dokspek/assets"

@@ -3,12 +3,13 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
-    mavenRepo url: 'http://snapshots.repository.codehaus.org/'
+//    mavenRepo url: 'http://snapshots.repository.codehaus.org/'
 }
 
 // Use the system property as long as the Groovy SNAPSHOT doesn't include static compiler
 def groovyAllJar = System.getProperty('groovy.jar')
-def groovyVersion = '2.0.0-beta-3-SNAPSHOT'
+//def groovyVersion = '2.0.0-beta-3-SNAPSHOT'
+def groovyVersion = '1.8.5'
 
 dependencies {
     if (groovyAllJar) {

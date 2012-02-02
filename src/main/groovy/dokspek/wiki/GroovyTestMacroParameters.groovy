@@ -2,13 +2,13 @@ package dokspek.wiki
 
 import org.xwiki.properties.annotation.PropertyMandatory
 import org.xwiki.properties.annotation.PropertyName
-import groovy.transform.CompileStatic
+//import groovy.transform.CompileStatic
 
 /**
  * 
  * @author Guillaume Laforge
  */
-@CompileStatic
+//@CompileStatic
 class GroovyTestMacroParameters {
 
     @PropertyMandatory

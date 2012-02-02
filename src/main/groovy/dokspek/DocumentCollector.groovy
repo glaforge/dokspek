@@ -2,13 +2,13 @@ package dokspek
 
 import dokspek.model.Document
 import groovy.io.FileType
-import groovy.transform.CompileStatic
+//import groovy.transform.CompileStatic
 
 /**
  * 
  * @author Guillaume Laforge
  */
-@CompileStatic
+//@CompileStatic
 class DocumentCollector {
 
     static List<Document> collect(ConfigurationHolder config) {
