@@ -28,7 +28,7 @@ import org.junit.AfterClass
 import org.xwiki.rendering.block.match.ClassBlockMatcher
 import org.xwiki.rendering.block.HeaderBlock
 import org.junit.runners.ParentRunner
-//import groovy.transform.CompileStatic
+import groovy.transform.CompileStatic
 
 /**
  *

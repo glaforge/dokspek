@@ -1,12 +1,12 @@
 package dokspek
 
-//import groovy.transform.CompileStatic
+import groovy.transform.CompileStatic
 
 /**
  *
  * @author Guillaume Laforge
  */
-//@CompileStatic
+@CompileStatic
 class Utilities {
     private static Map CLASS_CACHE = [:].withDefault { String label ->
         String replacement = label.replaceAll('[^a-zA-Z0-9]', '')
