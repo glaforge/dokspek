@@ -34,7 +34,7 @@ import groovy.transform.CompileStatic
  *
  * @author Guillaume Laforge
  */
-//@CompileStatic
+// TODO @CompileStatic
 class DokspekRunner extends ParentRunner<Document> {
 
     protected final ConfigurationHolder configuration
