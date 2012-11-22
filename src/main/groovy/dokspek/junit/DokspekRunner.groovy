@@ -71,7 +71,7 @@ class DokspekRunner extends ParentRunner<Document> {
     protected void runChild(Document document, RunNotifier notifier) {
         // parse document, execute tests, render output
 
-        def parser = componentManager.lookup(Parser, Syntax.XWIKI_2_0.toIdString())
+        def parser = componentManager.getInstance(Parser, Syntax.XWIKI_2_0.toIdString())
         def xdom = parser.parse(new StringReader(document.content))
 
         List<MacroBlock> allScriptBlocks = xdom.getBlocks(new MacroBlockMatcher('test'), Block.Axes.DESCENDANT)
@@ -207,12 +207,12 @@ class DokspekRunner extends ParentRunner<Document> {
     }
 
     protected void renderAndOutputReport(XDOM xdom, Document document) {
-        def transform = componentManager.lookup(Transformation, "macro")
+        def transform = componentManager.getInstance(Transformation, "macro")
         def xformContext = new TransformationContext(xdom, Syntax.XWIKI_2_0)
         transform.transform(xdom, xformContext)
 
         def printer = new DefaultWikiPrinter()
-        def renderer = componentManager.lookup(BlockRenderer, Syntax.XHTML_1_0.toIdString())
+        def renderer = componentManager.getInstance(BlockRenderer, Syntax.XHTML_1_0.toIdString())
         renderer.render(xdom, printer);
 
         // merge rendered output into the templates

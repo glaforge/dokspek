@@ -5,12 +5,12 @@ repositories {
     mavenCentral()
 }
 
-def groovyVersion = '2.0.2'
+def groovyVersion = '2.0.5'
 
 dependencies {
     groovy "org.codehaus.groovy:groovy-all:$groovyVersion"
-    compile 'org.xwiki.commons:xwiki-commons-component-default:3.3-milestone-2'
-    compile 'org.xwiki.rendering:xwiki-rendering-standalone:3.3-milestone-2'
+    compile 'org.xwiki.commons:xwiki-commons-component-default:4.3-rc-1'
+    compile 'org.xwiki.rendering:xwiki-rendering-standalone:4.3-rc-1'
     compile 'junit:junit:4.10'
 }
 
