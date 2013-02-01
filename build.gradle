@@ -5,15 +5,15 @@ repositories {
     mavenCentral()
 }
 
-def groovyVersion = '2.0.5'
+def groovyVersion = '2.1.0'
 
 dependencies {
     groovy "org.codehaus.groovy:groovy-all:$groovyVersion"
-    compile 'org.xwiki.commons:xwiki-commons-component-default:4.3-rc-1'
-    compile 'org.xwiki.rendering:xwiki-rendering-standalone:4.3-rc-1'
+    compile 'org.xwiki.commons:xwiki-commons-component-default:4.5-milestone-1'
+    compile 'org.xwiki.rendering:xwiki-rendering-standalone:4.5-milestone-1'
     compile 'junit:junit:4.10'
 }
 
 task wrap(type: Wrapper, description: "Create the gradlew wrapper") {
-    gradleVersion = '1.2'
+    gradleVersion = '1.4'
 }
