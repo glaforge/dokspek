@@ -7,7 +7,7 @@ import org.xwiki.component.annotation.Component
 import javax.inject.Named
 import org.xwiki.rendering.block.RawBlock
 import org.xwiki.rendering.syntax.Syntax
-//import groovy.transform.CompileStatic
+import groovy.transform.CompileStatic
 
 /**
  * 
@@ -15,7 +15,7 @@ import org.xwiki.rendering.syntax.Syntax
  */
 @Component
 @Named("test")
-//@CompileStatic
+@CompileStatic
 class GroovyTestMacro extends AbstractMacro<GroovyTestMacroParameters> {
 
     GroovyTestMacro() {
